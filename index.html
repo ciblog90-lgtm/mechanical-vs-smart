@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Valve Positioner Performance Comparison by TEAM SYNC</title>
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --mech-color: #d97706;
+      --smart-color: #059669;
+      --sp-color: #0284c7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    p.subtitle {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+.control-panel{
+    background:#fff;
+    border:1px solid var(--border-color);
+    border-radius:8px;
+    padding:18px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:20px;
+    align-items:center;
+}
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .val-display {
+      font-family: monospace;
+      font-weight: bold;
+    }
+
+    input[type=range] {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn-reset {
+      background: #074dab;
+      border: 1px solid #334155;
+      color: #0f172a;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+.button-group{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    justify-content:flex-end;
+
+}
+
+.button-group button{
+
+    border:none;
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    padding:10px 16px;
+
+    border-radius:6px;
+
+    transition:.25s;
+
+    min-width:130px;
+
+}
+
+.btn-green{
+
+    background:#16a34a;
+
+}
+
+.btn-green:hover{
+
+    background:#15803d;
+
+}
+
+.btn-red{
+
+    background:#dc2626;
+
+}
+
+.btn-red:hover{
+
+    background:#b91c1c;
+
+}
+
+.btn-blue{
+
+    background:#2563eb;
+
+}
+
+.btn-blue:hover{
+
+    background:#1d4ed8;
+
+}
+
+    .btn-reset:hover {
+      background: #cbd5e1;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .status-mech { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+    .status-smart { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+
+.analysis-container{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:18px;
+
+    margin-top:20px;
+
+    align-items:start;
+
+}   
+
+ canvas {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      width: 100%;
+      display: block;
+    }
+
+    .telemetry {
+      margin-top: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.8rem;
+    }
+
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+.plot-container{
+
+    background:white;
+
+    border:1px solid var(--border-color);
+
+    border-radius:8px;
+
+    padding:15px;
+
+    position:relative;
+
+}
+
+
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 25px;
+
+    border-bottom:3px solid #0f766e;
+
+    background:#ffffff;
+
+}
+
+.titleBlock{
+
+    flex:1;
+
+    text-align:center;
+
+}
+
+.titleBlock h1{
+
+    margin:0;
+
+    font-size:30px;
+
+    color:#003366;
+
+}
+
+.titleBlock h3{
+
+    margin-top:5px;
+
+    font-size:16px;
+
+    color:#666;
+
+    font-weight:normal;
+
+}
+
+.plot-title{
+
+    font-size:15px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.result-panel{
+
+    background:white;
+
+    border:1px solid var(--border-color);
+
+    border-radius:8px;
+
+    padding:18px;
+
+    min-height:350px;
+
+}
+
+.result-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:12px;
+
+}
+
+.result-table th{
+
+    background:#0f172a;
+
+    color:white;
+
+    padding:10px;
+
+    font-size:14px;
+
+}
+
+.result-table td{
+
+    padding:10px;
+
+    border-bottom:1px solid #ddd;
+
+    text-align:center;
+
+}
+
+.result-table tr:nth-child(even){
+
+    background:#f8fafc;
+
+}
+  
+@media(max-width:950px){
+
+.analysis-container{
+
+grid-template-columns:1fr;
+
+}
+
+.control-panel{
+
+grid-template-columns:1fr;
+
+}
+
+.button-group{
+
+justify-content:center;
+
+}
+
+}
+
+
+
+</style>
+</head>
+<body>
+
+
+<div class="container">
+  <header>
+    <div class="header">
+
+    
+    <div class="titleBlock">
+
+        <h1>Electro-Pneumatic vs Smart Positioner Simulator</h1>
+
+        <h3>Controls & Instrumentation Department - NTPC KANIHA</h3>
+
+    </div>
+
+    
+
+</div>
+
+    <p class="subtitle">Comparison of Electro-Pneumatic (I/P + Linkage) vs. Smart Digital (Microprocessor based) Valve Control</p>
+  </header>
+
+<div class="control-panel">
+
+    <div class="control-group">
+        <label>
+            Control Signal (4–20 mA Input):
+            <span id="spValue" class="val-display"
+                style="color:var(--sp-color);">
+                12.0 mA (50.0%)
+            </span>
+        </label>
+
+        <input
+            type="range"
+            id="spSlider"
+            min="0"
+            max="100"
+            value="50"
+            step="0.5">
+    </div>
+
+    <div class="control-group">
+        <label>
+            Packing Friction / Stem Stiction:
+            <span id="fricValue"
+                  class="val-display"
+                  style="color:#b45309;">
+                Moderate
+            </span>
+        </label>
+
+        <input
+            type="range"
+            id="fricSlider"
+            min="0"
+            max="3"
+            value="1"
+            step="1">
+    </div>
+
+    <div class="button-group">
+
+        <button id="startBtn" class="btn-green">
+            ▶ Start Analysis
+        </button>
+
+        <button id="stopBtn" class="btn-red">
+            ■ Stop Analysis
+        </button>
+
+        <button id="compareBtn" class="btn-blue">
+            Compare Results
+        </button>
+
+        <button id="resetBtn" class="btn-reset">
+            Reset
+        </button>
+
+    </div>
+
+</div>
+
+  <div class="sim-grid">
+    
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title" style="color: var(--mech-color);">Electro-Pneumatic Positioner</span>
+        <span class="status-badge status-mech">I/P Transducer + Mechanical Positioner</span>
+      </div>
+      <canvas id="mechCanvas" width="500" height="240"></canvas>
+      <div class="telemetry">
+        <div class="telemetry-row"><span>Stem Position:</span><strong id="mechPosText" style="color: var(--mech-color);">50.0%</strong></div>
+        <div class="telemetry-row"><span>Position Deviation:</span><strong id="mechErrText">0.0%</strong></div>
+        <div class="telemetry-row"><span>Signal Loop:</span><span>4–20mA &rarr; Coil &rarr; Flapper-Nozzle</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title" style="color: var(--smart-color);">Smart Digital Positioner</span>
+        <span class="status-badge status-smart">Microprocessor based</span>
+      </div>
+      <canvas id="smartCanvas" width="500" height="240"></canvas>
+      <div class="telemetry">
+        <div class="telemetry-row"><span>Stem Position:</span><strong id="smartPosText" style="color: var(--smart-color);">50.0%</strong></div>
+        <div class="telemetry-row"><span>Position Deviation:</span><strong id="smartErrText">0.0%</strong></div>
+        <div class="telemetry-row"><span>Diagnostics:</span><strong id="smartDiag" style="color: var(--smart-color);">OK (HART Loop Active)</strong></div>
+      </div>
+    </div>
+
+  </div>
+
+<div class="analysis-container">
+
+    <div class="plot-container">
+
+        <div class="plot-title">
+
+            Real-Time Stem Response Comparison
+
+        </div>
+
+        <canvas
+            id="plotCanvas"
+            width="700"
+            height="350">
+        </canvas>
+
+    </div>
+
+    <div class="result-panel">
+
+        <h2>Performance Analysis</h2>
+
+        <table class="result-table">
+
+<tr>
+    <th>Parameter</th>
+    <th>Mechanical</th>
+    <th>Smart</th>
+</tr>
+
+<tr>
+    <td>Actual Position</td>
+    <td id="actMech">--</td>
+    <td id="actSmart">--</td>
+</tr>
+
+<tr>
+    <td>Position Deviation</td>
+    <td id="devMech">--</td>
+    <td id="devSmart">--</td>
+</tr>
+
+
+
+<tr>
+    <td colspan="3">
+
+        <strong id="winnerText">
+
+            Click Compare Results
+
+        </strong>
+
+    </td>
+</tr>
+
+</table>
+
+
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+  // Dynamic Variables
+  let targetPct = 50;
+  let frictionLevel = 1;
+
+  let mechPos = 50;
+  let mechVel = 0;
+
+  let smartPos = 50;
+  let smartVel = 0;
+  let smartIntegral = 0;
+
+// ==================== Images ====================
+
+// ==================== IMAGE LOADING ====================
+
+const actuatorImg = new Image();
+const itopImg = new Image();
+const smartPosImg = new Image();
+
+actuatorImg.src = "images/actuator.png";
+itopImg.src = "images/itop.png";
+smartPosImg.src = "images/smart_positioner.png";
+
+let imagesReady = false;
+
+let loadedImages = 0;
+
+function imageLoaded() {
+
+    loadedImages++;
+
+    if (loadedImages === 3) {
+
+        imagesReady = true;
+
+        drawMechanical(mCtx);
+        drawSmart(sCtx);
+        drawPlot(pCtx);
+
+    }
+}
+
+actuatorImg.onload = imageLoaded;
+itopImg.onload = imageLoaded;
+smartPosImg.onload = imageLoaded;
+
+actuatorImg.onerror = function(){
+    console.error("Actuator image could not be loaded.");
+};
+
+itopImg.onerror = function(){
+    console.error("I/P image could not be loaded.");
+};
+
+smartPosImg.onerror = function(){
+    console.error("Smart Positioner image could not be loaded.");
+};
+
+  const history = [];
+  const maxHistory = 400;
+
+let mouseX = null;
+let hoverIndex = -1;
+
+let animationId = null;
+let isRunning = false;
+
+  // UI Components
+  const spSlider = document.getElementById('spSlider');
+  const spValue = document.getElementById('spValue');
+  const fricSlider = document.getElementById('fricSlider');
+  const fricValue = document.getElementById('fricValue');
+  const resetBtn = document.getElementById('resetBtn');
+
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const compareBtn = document.getElementById("compareBtn");
+
+  const mechCanvas = document.getElementById('mechCanvas');
+  const smartCanvas = document.getElementById('smartCanvas');
+  const plotCanvas = document.getElementById('plotCanvas');
+
+  const mCtx = mechCanvas.getContext('2d');
+  const sCtx = smartCanvas.getContext('2d');
+  const pCtx = plotCanvas.getContext('2d');
+
+  const fricLabels = ['Low', 'Moderate', 'High', 'Severe Stiction'];
+
+  spSlider.addEventListener('input', (e) => {
+    targetPct = parseFloat(e.target.value);
+    const maVal = (4 + (targetPct * 0.16)).toFixed(1);
+    spValue.textContent = `${maVal} mA (${targetPct.toFixed(1)}%)`;
+
+plotCanvas.addEventListener("mousemove", function(e){
+
+    const rect = plotCanvas.getBoundingClientRect();
+
+    mouseX = e.clientX - rect.left;
+
+    const left = 40;
+    const right = plotCanvas.width - 15;
+    const plotWidth = right - left;
+
+    hoverIndex = Math.round((mouseX - left) / plotWidth * (history.length - 1));
+
+    hoverIndex = Math.max(0, Math.min(history.length - 1, hoverIndex));
+
+    drawPlot(pCtx);
+
+});
+
+plotCanvas.addEventListener("mouseleave", function(){
+
+    hoverIndex = -1;
+
+    drawPlot(pCtx);
+
+});
+
+  });
+
+startBtn.addEventListener("click",()=>{
+
+    if(isRunning) return;
+
+    isRunning=true;
+
+    startBtn.disabled=true;
+
+    stopBtn.disabled=false;
+
+    renderLoop();
+
+});
+
+stopBtn.addEventListener("click",()=>{
+
+    isRunning=false;
+
+    cancelAnimationFrame(animationId);
+
+    startBtn.disabled=false;
+
+    stopBtn.disabled=true;
+
+});
+
+
+  fricSlider.addEventListener('input', (e) => {
+    frictionLevel = parseInt(e.target.value);
+    fricValue.textContent = fricLabels[frictionLevel];
+  });
+
+resetBtn.addEventListener("click",()=>{
+
+    isRunning=false;
+
+    cancelAnimationFrame(animationId);
+
+    targetPct=50;
+
+    mechPos=50;
+
+    smartPos=50;
+
+    mechVel=0;
+
+    smartVel=0;
+
+    smartIntegral=0;
+
+    history.length=0;
+
+    spSlider.value=50;
+
+    fricSlider.value=1;
+
+    frictionLevel=1;
+
+    spValue.textContent="12.0 mA (50.0%)";
+
+    fricValue.textContent="Moderate";
+
+    drawMechanical(mCtx);
+
+    drawSmart(sCtx);
+
+    drawPlot(pCtx);
+
+});
+
+  function updatePhysics() {
+    const frictionValues = [0.03, 0.15, 0.45, 1.10];
+    const friction = frictionValues[frictionLevel];
+
+    // --- Mechanical + I/P Positioner Physics ---
+    // Signal (mA) -> I/P Force -> Flapper Gap -> Pneumatic Pressure -> Actuator
+    let mechErr = targetPct - mechPos;
+    let mechDrive = mechErr * 0.12;
+
+    // Mechanical deadband and linkage friction hysteresis
+    if (Math.abs(mechDrive) < friction) {
+      mechDrive = 0;
+    } else {
+      mechDrive -= Math.sign(mechDrive) * friction * 0.65;
+    }
+
+    mechVel += mechDrive * 0.07;
+    mechVel *= 0.83; // Mechanical damping
+    mechPos += mechVel;
+    mechPos = Math.max(0, Math.min(100, mechPos));
+
+    // --- Smart Digital Positioner Physics ---
+    // Direct digital PID loop with active impulse boost for stiction
+    let smartErr = targetPct - smartPos;
+    smartIntegral += smartErr * 0.008;
+    smartIntegral = Math.max(-15, Math.min(15, smartIntegral));
+
+    let smartDrive = (smartErr * 0.35) + (smartIntegral * 0.04);
+
+    // Dynamic anti-stiction pulse mode
+    if (Math.abs(smartErr) > 0.3 && Math.abs(smartVel) < 0.01) {
+      smartDrive += Math.sign(smartErr) * (friction * 1.05);
+    }
+
+    smartVel += smartDrive * 0.14;
+    smartVel *= 0.76; // Electronic active braking
+    smartPos += smartVel;
+    smartPos = Math.max(0, Math.min(100, smartPos));
+
+    // Store history
+    history.push({ sp: targetPct, mech: mechPos, smart: smartPos });
+    if (history.length > maxHistory) history.shift();
+
+    // Telemetry updates
+    document.getElementById('mechPosText').textContent = `${mechPos.toFixed(1)}%`;
+    document.getElementById('mechErrText').textContent = `${(targetPct - mechPos).toFixed(1)}%`;
+
+    document.getElementById('smartPosText').textContent = `${smartPos.toFixed(1)}%`;
+    document.getElementById('smartErrText').textContent = `${(targetPct - smartPos).toFixed(1)}%`;
+
+    const diag = document.getElementById('smartDiag');
+    if (frictionLevel === 3 && Math.abs(targetPct - smartPos) > 1.0) {
+      diag.textContent = 'High Packing Friction Detected';
+      diag.style.color = '#dc2626';
+    } else {
+      diag.textContent = 'OK (HART Loop Active)';
+      diag.style.color = '#059669';
+    }
+  }
+function analyzePerformance(){
+
+    if(history.length<5){
+
+        alert("Run the analysis first.");
+
+        return;
+
+    }
+
+    const last=history[history.length-1];
+
+    const mechDeviation=Math.abs(last.sp-last.mech);
+
+    const smartDeviation=Math.abs(last.sp-last.smart);
+
+    const mechSensitivity=Math.abs(last.mech-history[history.length-2].mech);
+
+    const smartSensitivity=Math.abs(last.smart-history[history.length-2].smart);
+
+    document.getElementById("actMech").textContent=
+        last.mech.toFixed(1)+" %";
+
+    document.getElementById("actSmart").textContent=
+        last.smart.toFixed(1)+" %";
+
+    const devM=document.getElementById("devMech");
+    const devS=document.getElementById("devSmart");
+
+    devM.textContent=mechDeviation.toFixed(2)+" %";
+    devS.textContent=smartDeviation.toFixed(2)+" %";
+
+    devM.style.background="";
+    devS.style.background="";
+
+    if(mechDeviation<smartDeviation){
+
+        devM.style.background="#dcfce7";
+
+    }else{
+
+        devS.style.background="#dcfce7";
+
+    }
+
+    const sensM=document.getElementById("sensMech");
+    const sensS=document.getElementById("sensSmart");
+
+    sensM.textContent=sensitivityLabel(mechSensitivity);
+    sensS.textContent=sensitivityLabel(smartSensitivity);
+
+    sensM.style.background="";
+    sensS.style.background="";
+
+    if(mechSensitivity>smartSensitivity){
+
+        sensM.style.background="#dcfce7";
+
+    }else{
+
+        sensS.style.background="#dcfce7";
+
+    }
+
+    let winner;
+
+    if(smartDeviation<mechDeviation){
+
+        winner="🏆 Smart Digital Positioner";
+
+    }else{
+
+        winner="🏆 Mechanical Positioner";
+
+    }
+
+    document.getElementById("winnerText").innerHTML=winner;
+
+}
+
+function sensitivityLabel(v){
+
+    if(v<0.15) return "Low";
+
+    if(v<0.40) return "Medium";
+
+    if(v<0.80) return "High";
+
+    return "Very High";
+
+}
+
+compareBtn.addEventListener("click",analyzePerformance);
+
+function drawMechanical(ctx) {
+
+    ctx.clearRect(0,0,500,240);
+
+    // Frame
+    ctx.strokeStyle="#94a3b8";
+    ctx.lineWidth=1;
+    ctx.strokeRect(5,5,490,230);
+
+    // ---------------- Actuator Image ----------------
+    ctx.drawImage(
+        actuatorImg,
+        118,
+        15,
+        200,
+        85
+    );
+
+    // Valve Stem
+    ctx.fillStyle="#64748b";
+    ctx.fillRect(215,65,10,120);
+
+    const plugY=175-(mechPos*0.9);
+
+    // Valve Plug
+    ctx.fillStyle="#d97706";
+    ctx.fillRect(205,plugY,30,12);
+
+    // ---------------- I/P Image ----------------
+    ctx.drawImage(
+        itopImg,
+        320,
+        18,
+        120,
+        70
+    );
+
+    // Mechanical Linkage
+    ctx.strokeStyle="#475569";
+    ctx.lineWidth=2.5;
+
+    ctx.beginPath();
+    ctx.moveTo(220,plugY+6);
+    ctx.lineTo(330,120);
+    ctx.lineTo(370,90);
+    ctx.stroke();
+
+    // Flapper
+    ctx.fillStyle="#dc2626";
+    ctx.fillRect(368,80,4,25);
+
+    // Nozzle
+    ctx.fillStyle="#0284c7";
+    ctx.fillRect(378,88,20,8);
+
+    // Labels
+    ctx.fillStyle="#475569";
+    ctx.font="10px sans-serif";
+
+    ctx.fillText("Feedback Link",235,150);
+    ctx.fillText("Flapper / Nozzle",375,105);
+
+}
+
+
+function drawSmart(ctx) {
+
+    ctx.clearRect(0, 0, 500, 240);
+
+    // ================= FRAME =================
+
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(5, 5, 490, 230);
+
+
+    // ================= ACTUATOR =================
+
+    ctx.drawImage(
+        actuatorImg,
+        118,
+        15,
+        200,
+        85
+    );
+
+
+    // ================= VALVE STEM =================
+
+    ctx.fillStyle = "#64748b";
+    ctx.fillRect(215, 65, 10, 120);
+
+
+    // ================= VALVE PLUG =================
+
+    const plugY = 175 - (smartPos * 0.9);
+
+    ctx.fillStyle = "#059669";
+    ctx.fillRect(205, plugY, 30, 12);
+
+
+    // ================= SMART POSITIONER =================
+
+    ctx.drawImage(
+        smartPosImg,
+        310,
+        80,
+        100,
+        80
+    );
+
+
+    // ==================================================
+    // SMART POSITIONER FEEDBACK MECHANISM
+    // Same visual concept as Electro-Pneumatic feedback
+    // ==================================================
+
+    ctx.strokeStyle = "#475569";
+    ctx.lineWidth = 2.5;
+
+    ctx.beginPath();
+
+    // Start from moving valve plug
+    ctx.moveTo(220, plugY + 6);
+
+    // Feedback linkage
+    ctx.lineTo(275, plugY + 6);
+
+    // Rise toward smart positioner
+    ctx.lineTo(310, 110);
+
+    ctx.stroke();
+
+
+    // ================= FEEDBACK PICK-UP POINT =================
+
+    ctx.fillStyle = "#10b981";
+
+    ctx.beginPath();
+    ctx.arc(310, 110, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+
+    // ================= ELECTRONIC FEEDBACK INDICATION =================
+
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = "#34d399";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(310, 110);
+    ctx.lineTo(330, 110);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+
+    // ================= LABEL =================
+
+    ctx.fillStyle = "#059669";
+    ctx.font = "10px sans-serif";
+
+    ctx.fillText(
+        "Position Feedback",
+        235,
+        150
+    );
+
+}
+
+
+
+  function drawPlot(ctx) {
+
+    const canvas = ctx.canvas;
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const left = 40;
+    const right = W - 15;
+    const top = 15;
+    const bottom = H - 15;
+
+    const plotWidth = right - left;
+    const plotHeight = bottom - top;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, W, H);
+
+    // Horizontal grid
+    ctx.strokeStyle = "#e5e7eb";
+    ctx.lineWidth = 1;
+
+    for (let i = 0; i <= 4; i++) {
+
+        const y = top + (plotHeight / 4) * i;
+
+        ctx.beginPath();
+        ctx.moveTo(left, y);
+        ctx.lineTo(right, y);
+        ctx.stroke();
+
+    }
+
+    // Vertical grid
+    for (let i = 0; i <= 10; i++) {
+
+        const x = left + (plotWidth / 10) * i;
+
+        ctx.beginPath();
+        ctx.moveTo(x, top);
+        ctx.lineTo(x, bottom);
+        ctx.stroke();
+
+    }
+
+    // Axes
+    ctx.strokeStyle = "#555";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.lineTo(right, bottom);
+    ctx.stroke();
+
+// ================= Hover Cursor =================
+
+if(hoverIndex >= 0 && hoverIndex < history.length){
+
+    const stepX = plotWidth / (history.length - 1);
+
+    const x = left + hoverIndex * stepX;
+
+    const h = history[hoverIndex];
+
+    // Vertical cursor
+    ctx.strokeStyle = "#ef4444";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(x, top);
+    ctx.lineTo(x, bottom);
+    ctx.stroke();
+
+    // Tooltip
+const boxWidth = 120;
+const boxHeight = 70;
+
+// Decide whether to show tooltip on left or right
+let boxX = x + 10;
+
+if (boxX + boxWidth > right) {
+    boxX = x - boxWidth - 10;
+}
+
+const boxY = top + 10;
+
+ctx.fillStyle = "rgba(255,255,255,0.95)";
+ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+ctx.strokeStyle = "#666";
+ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+
+ctx.fillStyle = "#000";
+ctx.font = "12px Arial";
+
+ctx.fillText("Set Point : " + h.sp.toFixed(1) + " %", boxX + 8, boxY + 18);
+ctx.fillText("Mechanical : " + h.mech.toFixed(1) + " %", boxX + 8, boxY + 38);
+ctx.fillText("Smart : " + h.smart.toFixed(1) + " %", boxX + 8, boxY + 58);
+
+}
+
+
+    if (history.length < 2) {
+
+        drawLegend(ctx);
+
+        return;
+
+    }
+
+    const stepX = plotWidth / (history.length - 1);
+
+    // -------- SET POINT --------
+
+    ctx.strokeStyle = "#0284c7";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    history.forEach((h, i) => {
+
+        const x = left + i * stepX;
+        const y = bottom - (h.sp / 100) * plotHeight;
+
+        if (i === 0)
+            ctx.moveTo(x, y);
+        else
+            ctx.lineTo(x, y);
+
+    });
+
+    ctx.stroke();
+
+    // -------- MECHANICAL --------
+
+    ctx.strokeStyle = "#d97706";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    history.forEach((h, i) => {
+
+        const x = left + i * stepX;
+        const y = bottom - (h.mech / 100) * plotHeight;
+
+        if (i === 0)
+            ctx.moveTo(x, y);
+        else
+            ctx.lineTo(x, y);
+
+    });
+
+    ctx.stroke();
+
+    // -------- SMART --------
+
+    ctx.strokeStyle = "#059669";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    history.forEach((h, i) => {
+
+        const x = left + i * stepX;
+        const y = bottom - (h.smart / 100) * plotHeight;
+
+        if (i === 0)
+            ctx.moveTo(x, y);
+        else
+            ctx.lineTo(x, y);
+
+    });
+
+    ctx.stroke();
+
+    drawLegend(ctx);
+
+}
+
+function drawLegend(ctx){
+
+    ctx.save();
+
+    ctx.font = "bold 12px Arial";
+    ctx.lineWidth = 3;
+
+    // Position of legend (top-center)
+    const startX = 120;
+    const y = 18;
+    const gap = 120;
+
+    // ---------------- Set Point ----------------
+    ctx.strokeStyle = "#0284c7";
+    ctx.beginPath();
+    ctx.moveTo(startX, y);
+    ctx.lineTo(startX + 25, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "#0284c7";
+    ctx.fillText("Set Point", startX + 32, y + 4);
+
+    // ---------------- Mechanical ----------------
+    const x2 = startX + gap;
+
+    ctx.strokeStyle = "#d97706";
+    ctx.beginPath();
+    ctx.moveTo(x2, y);
+    ctx.lineTo(x2 + 25, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "#d97706";
+    ctx.fillText("Mechanical", x2 + 32, y + 4);
+
+    // ---------------- Smart ----------------
+    const x3 = x2 + 150;
+
+    ctx.strokeStyle = "#059669";
+    ctx.beginPath();
+    ctx.moveTo(x3, y);
+    ctx.lineTo(x3 + 25, y);
+    ctx.stroke();
+
+    ctx.fillStyle = "#059669";
+    ctx.fillText("Smart", x3 + 32, y + 4);
+
+    ctx.restore();
+}
+
+function renderLoop(){
+
+    if(!isRunning) return;
+
+    if(!imagesReady){
+
+        animationId=requestAnimationFrame(renderLoop);
+
+        return;
+    }
+
+    updatePhysics();
+
+    drawMechanical(mCtx);
+    drawSmart(sCtx);
+    drawPlot(pCtx);
+
+    animationId=requestAnimationFrame(renderLoop);
+}
+
+startBtn.disabled=false;
+stopBtn.disabled=true;
+</script>
+
+</body>
+</html>
